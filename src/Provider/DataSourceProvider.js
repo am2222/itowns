@@ -28,6 +28,7 @@ function parseSourceData(data, extDest, layer) {
         mergeFeatures: layer.mergeFeatures === undefined ? true : layer.mergeFeatures,
         withNormal: layer.isGeometryLayer,
         withAltitude: layer.isGeometryLayer,
+        styleFunction: layer.styleFunction || undefined,
     };
 
     return source.parser(data, options).then(parsedFile => source.onParsedFile(parsedFile));

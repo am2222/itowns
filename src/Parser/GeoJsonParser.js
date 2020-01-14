@@ -116,9 +116,9 @@ function toFeatureType(jsonType) {
 const keyProperties = ['type', 'geometry', 'properties'];
 
 function jsonFeatureToFeature(crsIn, crsOut, json, filteringExtent, options, featureCollection) {
-    if (options.filter && !options.filter(json.properties, json.geometry)) {
-        return;
-    }
+    // if (options.filter && !options.filter(json.properties, json.geometry)) {
+    //     return;
+    // }
 
     const jsonType = json.geometry.type.toLowerCase();
     const featureType = toFeatureType(jsonType);

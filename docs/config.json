@@ -50,6 +50,7 @@
                 "TMSSource",
                 "FileSource",
                 "OrientedImageSource",
+                "GeojsonVectorTilesSource",
                 "VectorTilesSource"
             ],
 

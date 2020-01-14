@@ -145,13 +145,19 @@ function readPBF(file, options) {
             let feature;
             for (const layer of layers) {
                 const tag = `${layer.id}_zoom_${z}`;
-                // Fix doens't pass instance of properties
+                 // Fix doens't pass instance of properties
                 let style = styleCache.get(tag);
-                if (!style) {
-                    style = new Style();
-                    style.setFromVectorTileLayer(layer, extentSource.zoom, options.sprites);
-                    styleCache.set(tag, style);
-                }
+                
+                    if (!style) {
+                        style = new Style();
+                        style.setFromVectorTileLayer(layer, extentSource.zoom, options.sprites);
+                        styleCache.set(tag, style);
+    
+                    }
+                
+
+                
+
                 const order = allLayers.findIndex(l => l.id == layer.id);
                 if (!feature) {
                     feature = features.requestFeatureById(layer.id, vtFeature.type - 1);
@@ -165,6 +171,18 @@ function readPBF(file, options) {
                     feature.order = order;
                     feature.style = style;
                 }
+                // FIXME: Majid, dirty style edit per feature
+                if (options.styleFunction && typeof options.styleFunction === 'function' && feature.geometry.length == 1) {
+                    style = new Style();
+                    style.setFromVectorTileLayer(layer, extentSource.zoom, options.sprites);
+                    style.fill.color = options.styleFunction(feature.geometry[0], layer, extentSource.zoom);
+                    style.stroke.color = options.styleFunction(feature.geometry[0], layer, extentSource.zoom);
+                    feature.style = style;
+
+                } else {
+                    console.log(`Geometry in feature has a problem. lenght is '${feature.geometry.length}'`);
+                }
+
             }
         }
     });
